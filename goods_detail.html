@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/bootstrap/css/select2.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/select2-bootstrap-5-theme.rtl.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Brinkman Website</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="head">
+        <div class="row">
+            <div class="col-lg-6" id="first-head">
+                <!-- logo -->
+                <div class="logo">
+                    <img src="assets/logo.png" alt="logo" class="img-fluid">
+                </div>
+                <!-- search -->
+                <div class="search-bar">
+                    <div class="links">
+                        <a href="#">EN</a>
+                        <a href="#">/CN</a>
+                    </div>
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Type To Search" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-md-0 mt-sm-3 " id="sec-head">
+                <!-- buttons -->
+
+                <button class="btn btn-dark">个⼈信息</button>
+                <button class="btn btn-dark">关单卫⽣</button>
+                <button class="btn btn-success " id="message">
+                    Shopping Cart
+                    <span>56</span>
+                </button>
+                <button class="btn btn-danger">My Order</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--=============== china text ===============-->
+    <section id="text">
+        <div class="container">
+            <h2>关单卫⽣</h2>
+        </div>
+    </section>
+    <!--============== China Text 2 ==============-->
+
+    <section class="pt-5 bg_grey" id="cara">
+        <div class="container p-2" id="single_product">
+        </div>
+    </section>
+<!-- banner Start here -->
+    <section class="mt-5">
+         <div class="container">
+            <div class="row">
+               
+                    <img src="assets/img/bear.jpg" alt="Bitter Truth Image" class="img-fluid">
+                
+            </div>
+         </div>
+    </section>
+
+
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/select2.min.js"></script>
+    <script>
+        const config = {
+            apiHost: 'https://api.brinkmanbeverages.com.cn/api',
+            assetsHost: 'https://api.brinkmanbeverages.com.cn',
+            uploadHost: 'https://api.brinkmanbeverages.com.cn/api/upload',
+        };
+        var productCard = '';
+        function getGoodsDetail(product_id) {
+            //var category_ids = [18, 19, 26, 31];
+            $.ajax({
+                type: "POST",
+                url: config.apiHost + "/wx/goods/getDetail",
+                data: { 'id': product_id },
+                success: function (data) {
+                    console.log(data.data);
+                    var pr_data = data.data;
+                    let volumeCaseSize = "";
+                    if (pr_data.product_volume &&
+                        pr_data.product_casesize &&
+                        pr_data.product_volume.length > 0 &&
+                        pr_data.product_casesize.length > 0) {
+                        volumeCaseSize = pr_data.product_volume + " x " + pr_data.product_casesize;
+                    }
+                    var imageUrls = pr_data.gallery.split(',');
+
+                    productCard += `  <div class="row bg_white p-5" id="color">
+                        <div class="col-lg-6 p-0">
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">`;
+
+
+                    $.each(imageUrls, function (index, imageUrl) {
+                        productCard += ` <div class="carousel-item ${index == 0 ? 'active' : ''}">
+                                    <img src="${config.assetsHost}${imageUrl}" class="d-block mx-auto img-fluid" alt="...">
+                                </div>`;
+                    });
+
+                    productCard += `</div>
+                    <div class="carousel-indicators">`;
+                    $.each(imageUrls, function (index, imageUrl) {
+                        productCard += `
+                                <button  type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="${index}" class="${index == 0 ? 'active' : ''}" aria-current="true" aria-label="Slide ${index + 1}"></button>
+                                `;
+                    });
+                    productCard += `</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" id="thumb">
+                            <div class="card-txt">
+                                <h4>
+                                    ${pr_data.en_name}
+                                </h4>
+                                <h4>
+                                    ${pr_data.name}
+                                </h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">分类</div>
+                                    <div class="col-md-6">产地</div>
+                                </div>
+                                <div class="row last">
+                                    <div class="col-md-6"><p>${pr_data.category_name}</p></div>
+                                    <div class="col-md-6"><p>${pr_data.address_name}</p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">规格</div>
+                                    <div class="col-md-6">酒精度</div>
+                                </div>
+                                <div class="row last">
+                                    <div class="col-md-6"><p>${volumeCaseSize.length > 0 ? volumeCaseSize : pr_data.ext_1 ?? ""}</p></div>
+                                    <div class="col-md-6"><p>${pr_data.ext_2}</p></div>
+                                </div>
+                              
+                                <div class="row mt-5">
+                                    <div class="col-lg-12">
+                                    <h5 class="price">供lit份丫195</h5>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-lg-12 classic">
+                                    <div class="btn mb-1">店指異份y24O</div>
+                                    <div class="btn mb-1">域上控份y24O </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 heart">
+                                        <div class="col-lg-2">
+                                            <i class="fa-regular fa-heart"></i><br><small>规格</small>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <div class="btn btn-danger mt-2">6月中旬到貨 </div>
+                                        </div>
+                                </div> 
+
+                               
+                            </div>
+                        </div>
+                    </div>`;
+                    $('#single_product').html(productCard);
+                },
+            });
+        }
+
+        $(document).ready(function () {
+            // Get the URL parameters
+            var urlParams = new URLSearchParams(window.location.search);
+            // Get the value of the 'id' parameter
+            var product_id = urlParams.get('id');
+            getGoodsDetail(product_id);
+
+        });
+
+
+    </script>
+</body>
+
+</html>

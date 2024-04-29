@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/bootstrap/css/select2.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/select2-bootstrap-5-theme.rtl.min.css">
+    <link rel="stylesheet" href="assets/cart.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Orders</title>
+</head>
+
+<body>
+
+
+    <!-- NavBar Head -->
+    <div class="container-fluid" id="head">
+        <div class="row">
+            <div class="col-lg-6" id="first-head">
+                <!-- logo -->
+                <div class="logo">
+                    <img src="assets/logo.png" alt="logo" class="img-fluid">
+                </div>
+                <!-- search -->
+                <div class="search-bar">
+                    <div class="links">
+                        <a href="#">EN</a>
+                        <a href="#">/CN</a>
+                    </div>
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Type To Search" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-md-0 mt-sm-3 " id="sec-head">
+                <!-- buttons -->
+
+                <button class="btn btn-dark">个⼈信息</button>
+                <button class="btn btn-dark">关单卫⽣</button>
+                <button class="btn btn-success " id="message">
+                    Shopping Cart
+                    <span>56</span>
+                </button>
+                <button class="btn btn-danger">My Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!--=============== china text ===============-->
+    <section id="text">
+        <div class="container">
+            <h2>Cards</h2>
+        </div>
+    </section>
+    <!-- Order Coding start here -->
+    <div class="container mt-5 mb-5" id="order">
+        <div class="row">
+            <div class="col-lg-6 p-3">
+                <div class="input-group mb-4 mt-3">
+                    <span class="input-group-text dsplyr1">留言</span>
+                    <textarea class="form-control dsplyr" aria-label="With textarea"
+                        placeholder="蛤賣家留言（50字以內）"></textarea>
+                </div>
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text dsplyr1" id="basic-addon1">商品金額共3件</span>
+                    <input type="text" class="form-control dsplyr3" placeholder="531" aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text dsplyr1" id="basic-addon1">收貲朕系人</span>
+                    <input type="text" class="form-control dsplyr3" placeholder="周文龍" aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text dsplyr1" id="basic-addon1">朕系電話 </span>
+                    <input type="number" class="form-control dsplyr3" placeholder="18675636914 " aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text dsplyr1" id="basic-addon1">收貲朕</span>
+                    <input type="text" class="form-control dsplyr3" placeholder="周文" aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="row p-3">
+                    <div class="col-5">
+                        <img src="assets/img/botle3-removebg-preview.png" alt="Order Botle" class="img-fluid">
+                    </div>
+                    <div class="col-7">
+                        <div class="box  mb-3">
+                            <h6>嘉冕加勒比桔味利口酒 </h6>
+                            <p>Shrubb J.M Orange Liqueur </p>
+                            <p>法國 | 700ml x 6 | 35% </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="box2">
+                                    <p>¥180</p>
+                                    <p class="ex">x1</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- second card -->
+                <div class="row p-3 mt-1">
+                    <div class="col-5">
+                        <img src="assets/img/botle3-removebg-preview.png" alt="Order Botle" class="img-fluid">
+                    </div>
+                    <div class="col-7">
+                        <div class="box  mb-3">
+                            <h6>嘉冕加勒比桔味利口酒 </h6>
+                            <p>Shrubb J.M Orange Liqueur </p>
+                            <p>法國 | 700ml x 6 | 35% </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="box2">
+                                    <p>¥180</p>
+                                    <p class="ex">x1</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- second card  ended-->
+            </div>
+        </div>
+        <div class="row mt-1 submit">
+            <div class="col-lg-6">
+                <i class="fa-solid fa-check"></i> <span>我已閱讀并接受</span><a href="#">茶款和茶件</a><span>和</span><a
+                    href="#">隱私政策 </a>
+            </div>
+        </div>
+        <div class="row mt-1 last-btn">
+            <div class="col-lg-6">
+                <span>合計：</span>
+                <span>¥531.oo </span>
+                <div class="btn btn-danger">
+                    隱私政策 
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/select2.min.js"></script>
+</body>
+
+</html>

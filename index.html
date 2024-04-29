@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" > 
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/bootstrap/css/select2.min.css" >
+    <link rel="stylesheet" href="assets/bootstrap/css/select2-bootstrap-5-theme.rtl.min.css" >
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Brinkman Website</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="head">
+        <div class="row">
+            <div class="col-lg-6" id="first-head">
+                <!-- logo -->
+                <div class="logo">
+                    <img src="assets/logo.png" alt="logo" class="img-fluid">
+                </div>
+                <!-- search -->
+                <div class="search-bar">
+                    <div class="links">
+                        <a href="#">EN</a>
+                        <a href="#">/CN</a>
+                    </div>
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Type To Search" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-md-0 mt-sm-3 " id="sec-head">
+                <!-- buttons -->
+
+                <button class="btn btn-dark">个⼈信息</button>
+                <button class="btn btn-dark">关单卫⽣</button>
+                <button class="btn btn-success " id="message">
+                    Shopping Cart
+                    <span>56</span>
+                </button>
+                <button class="btn btn-danger">My Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!--=============== china text ===============-->
+    <section id="text">
+        <div class="container">
+            <h2>关单卫⽣</h2>
+        </div>
+    </section>
+    <!--============== China Text 2 ==============-->
+    <div class="container mt-5 mb-3" id="text-2">
+        <h4>查看⽂档</h4>
+    </div>
+    <!--=========================== menus=================== -->
+    <div class="container" id="menu">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 set"  id="brand"> 
+                <select class="form-select select2 " id="brand-dropdown" onchange="childSubCat(this.value,'brand')" data-placeholder="品牌*" >
+                    <option value="0">品牌*</option>
+                   
+                </select>
+            </div>
+
+            <div class="col-lg-3 cot col-md-6 col-sm-6 set" >
+                <select class="form-select select2" id="category-dropdown" data-placeholder="类别*" onchange="childSubCat(this.value,'category')" >
+                    <option value="0">类别*</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3 border_right col-md-6 col-sm-6 set" >
+                <select class="form-select select2"  id="address-dropdown" data-placeholder="产地*" onchange="childSubCat(this.value,'address')">
+                    <option value="0">产地*</option>
+                </select>
+            </div>
+
+            
+            <!--div class="col-lg-2 col-md-6 col-sm-6 set" id="danger">
+              <div class="btn btn-search" onclick="findSubCat()">Search</div>
+            </div>
+            <div class="col-lg-1 col-md-6 col-sm-6 set" id="reset">
+                <button type="button">Reset</button>
+            </div-->
+        </div>
+        <div class="row mt-2" id="childrens">
+                
+                <!--a class="btn-default">英式朗姆酒</a-->
+            
+        </div>
+    </div>
+<!-- Cards -->
+<section class="mt-3">
+    <div class="container">
+        <div class="row" id="products_list">
+            
+           
+        </div>
+    </div>
+
+</section>
+<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="assets/bootstrap/js/select2.min.js"></script>
+<script>
+    const config = {
+        apiHost: 'https://api.brinkmanbeverages.com.cn/api',
+        assetsHost: 'https://api.brinkmanbeverages.com.cn',
+        uploadHost: 'https://api.brinkmanbeverages.com.cn/api/upload',
+    };
+    let categoriesArr =[];
+    let brandsArr =[];
+    let addressesArr =[];
+    let productsArr = [];
+    function getData(){
+        	 $.ajax({
+                type: "POST",
+                url: config.apiHost+"/wx/category/getGroupList",
+                success: function(data){
+                    categoriesArr  = data.data.category;
+                    brandsArr = data.data.brand;
+                    addressesArr = data.data.address;
+                    /* brands list */
+                    var brandOpt = [];
+                    $.each(brandsArr, function(index, val) {
+                       // console.log(val.name, val.id);
+                        var brandObj = {
+                            id: index,
+                            text: val.name
+                        };
+                        brandOpt.push(brandObj);
+                    }); 
+                   // console.log(brandOpt);
+                    var $brandSelect = $("#brand-dropdown");
+                    if(brandOpt.length>0){
+                        $brandSelect.select2( {
+                            theme: "bootstrap-5",
+                            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                            placeholder: $( this ).data( '品牌*' ),
+                            closeOnSelect: true,
+                            data: brandOpt
+                        } );
+                    }
+                    /* end brands list */
+
+                    /* category list */
+                    var categoryOpt = [];
+                    $.each(categoriesArr, function(index, val) {
+                        //console.log(val.name, val.id);
+                        var categoryObj = {
+                            id: val.id,
+                            text: val.name
+                        };
+                        categoryOpt.push(categoryObj);
+                    }); 
+                    //console.log(categoryOpt);
+                    var $categorySelect = $("#category-dropdown");
+                    if(categoryOpt.length>0){
+                        $categorySelect.select2( {
+                            theme: "bootstrap-5",
+                            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                            placeholder: $( this ).data( '类别*' ),
+                            closeOnSelect: true,
+                            data: categoryOpt
+                        } );
+                    }
+                    /* end category list */
+
+                    /* address list */
+                    var addressOpt = [];
+                    $.each(addressesArr, function(index, val) {
+                        //console.log(val.name, val.id);
+                        var addressObj = {
+                            id: val.id,
+                            text: val.name
+                        };
+                        addressOpt.push(addressObj);
+                    }); 
+                    //console.log(categoryOpt);
+                    var $addressSelect = $("#address-dropdown");
+                    if(addressOpt.length>0){
+                        $addressSelect.select2( {
+                            theme: "bootstrap-5",
+                            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                            placeholder: $( this ).data( '产地*' ),
+                            closeOnSelect: true,
+                            data: addressOpt
+                        } );
+                    }
+                    /* end address list */
+            },
+        });
+    }
+    function getGoods(category_ids,category_names){
+            //var category_ids = [18, 19, 26, 31];
+        	 $.ajax({
+                type: "POST",
+                url: config.apiHost+"/wx/goods/getList",
+                data:{'category_ids': category_ids},
+                success: function(data){
+                    //console.log(data.data);
+                    productsArr = data.data;
+                    var productCard= '';
+                    console.log('cat length'+category_names.length);
+                    for(var i=0;i<category_names.length;i++){
+                        productCard+=`<div class="col-lg-12" id="cat_${category_ids[i]}"><h5>${category_names[i]}</h5></div>`;
+                        $.each(productsArr, function(index, val) {
+                            var parts =val.category_name.split('/');
+                            if(parts[1].trim() == category_names[i]){
+                                let volumeCaseSize = "";
+                                if (val.product_volume &&
+                                val.product_casesize &&
+                                val.product_volume.length > 0 &&
+                                val.product_casesize.length > 0) {
+                                volumeCaseSize = val.product_volume + " x " + val.product_casesize;
+                                }
+                                productCard+=`<div class="col-lg-3" onclick="goodsDetailPage(${val.id})">
+                                    <div class="card mb-3">
+                                        <div class="image">
+                                        <img src="${config.assetsHost}${val.gallery.split(",")[0]}" class="card-img-top img-fluid" alt="botle">
+                                    </div>
+                                        <div class="card-body mt-4">
+                                        <p class="card-title">${val.name}</p>
+                                        <p class="card-text">${val.en_name}</p>
+                                        <p class="txt"> ${val.address_name} | ${volumeCaseSize.length > 0 ? volumeCaseSize+' |' : val.ext_1 ?? ""}  ${val.ext_2}</p>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                        });
+                    }
+                    
+
+                    $('#products_list').html(productCard);
+            },
+        });
+    }
+    function goodsDetailPage(id){
+        window.location.href="goods_detail.html?id="+id;
+    }
+    //brand //category //address
+    function childSubCat(index ,key){
+        if(index == 0){
+            return;
+        }
+        //alert(index);
+        var Childs = '';
+        var names = []
+        var ids = [];
+        let childrenArray = [];
+       
+
+       /* if(key !='brand'){
+            $("#category-dropdown").val(null).trigger('change');
+            $("#address-dropdown").val(null).trigger('change');
+        }else if(key !='category'){
+            $("#brand-dropdown").val(null).trigger('change');
+            $("#address-dropdown").val(null).trigger('change');
+        }else if(key !='address'){
+            $("#brand-dropdown").val(null).trigger('change');
+            $("#category-dropdown").val(null).trigger('change');
+        }  */
+
+        if(key =='brand'){
+            childrenArray = brandsArr[index].children;
+            $("#address-dropdown").val("0").trigger('change');
+            $("#category-dropdown").val("0").trigger('change');
+        }else if(key =='category'){
+            childrenArray = categoriesArr[index].children;
+            $("#brand-dropdown").val("0").trigger('change');
+            $("#address-dropdown").val("0").trigger('change');
+        }else if(key =='address'){
+            childrenArray = addressesArr[index].children;
+            $("#brand-dropdown").val("0").trigger('change');
+            $("#category-dropdown").val("0").trigger('change');
+        }
+        $.each(childrenArray, function(ind, val) {
+            Childs+='<a class="btn-default" id="child_'+ind+'" onclick="findGoods('+ind+','+val.id+')">'+val.name+'</a>';
+            ids.push(val.id);
+            names.push(val.name);
+        });
+       
+        getGoods(ids,names);
+        $('#childrens').html(Childs);
+    }
+    function findGoods(ind,cat_id){
+        $('.btn-default').removeClass('child_active');
+        $('#child_'+ind).addClass('child_active');
+        //cat_2
+       // $('#cat_'+cat_id).scrollIntoView({ behavior: "smooth", block: "start" });
+
+
+        var elementId = "cat_" + cat_id;
+
+        // Get the element using the ID
+        var element = document.getElementById(elementId);
+
+        // Check if the element exists
+        if (element) {
+            // Convert the DOM element to a jQuery object
+            var $element = $(element);
+
+            // Scroll to the element using plain JavaScript
+            $element[0].scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }
+    $( document ).ready(function() {
+        getData();
+        //getGoods();
+        $( '.select2' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
+            closeOnSelect: true
+        } );
+    });
+
+
+        </script>
+</body>
+</html>
